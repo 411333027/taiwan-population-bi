@@ -9,8 +9,10 @@
 raw/                       原始檔（未經修改）
 etl/etl_population.py      ETL：19 個工作表 → 一份 CSV
 etl/validate_population.py 驗證：和原始檔獨立比對
+etl/build_data.py          把 CSV 轉成網頁用的 docs/data.js
 data/population_by_year.csv ETL 產出
-docs/                      BI 網頁（GitHub Pages 從這裡發佈）
+docs/index.html            BI 網頁（GitHub Pages 從 docs/ 發佈）
+docs/data.js               網頁資料（由 build_data.py 產生）
 ```
 
 ## 執行
@@ -18,7 +20,16 @@ docs/                      BI 網頁（GitHub Pages 從這裡發佈）
 ```
 uv run etl/etl_population.py
 uv run etl/validate_population.py
+uv run etl/build_data.py
 ```
+
+之後直接雙擊 `docs/index.html` 即可在瀏覽器開啟（圖表元件 ECharts 從 cdnjs 載入，需要網路）。
+
+## BI 網頁
+
+- 全域篩選：指標（65 歲以上比例、老化指數、扶養比、扶老比、扶幼比、0～14 歲比例）、年份（可播放）、最多 3 個比較縣市、年齡結構地區；所有圖表同步更新
+- 指標歷年趨勢（折線／長條切換）、縣市排名（點長條可加入比較）、扶幼比 × 扶老比散佈圖（看各縣市逐年越過「老化指數 = 100」）、年齡結構（面積／長條切換）
+- 自動產生的重點觀察、資料表、深淺色模式、手機版單欄
 
 ## 資料欄位（data/population_by_year.csv）
 
